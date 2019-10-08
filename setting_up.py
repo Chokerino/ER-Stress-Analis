@@ -16,19 +16,22 @@ for i in range(1,sheet[0].ncols):
 	max_gene=[]
 	max_list_positions=[]
 	max_list=heapq.nlargest(20,sheet[0].col_values(i)[1:])
-	print(type(sheet[0].col_values(i)[1:]))
 	for j in max_list:
 		max_list_positions.append(sheet[0].col_values(i)[1:].index(j))
 	for j in max_list_positions:
 		max_gene.append(sheet[0].col_values(0)[1:][j])
 	for g in max_gene:
 		if g not in genes:
-			genes[g]=0
+			genes[g]=1
 		else:
 			genes[g]+=1		
 	plt.plot(max_gene,max_list,label=sheet[0].col_values(i)[0])
 	#print(sheet[0].col_values(i))
    
-plt.savefig('my_figure.png', dpi=1000)
+print(genes)
+import json
+with open('gene_max_list.json', 'w') as fout:
+    json.dump(genes, fout)    
+plt.savefig('gene_to_patient.png', dpi=1000)
 plt.show()
 plt.close()
