@@ -9,7 +9,6 @@ book = xlrd.open_workbook('HiSeqV2.xlsx')
 sheet=[]
 max_list=[]
 min_list=[]
-common=[]
 genes_max_dict={}
 genes_min_dict={}
 gene_max_expression={}
