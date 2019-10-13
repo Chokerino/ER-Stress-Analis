@@ -1,5 +1,3 @@
-HALLMARK_UNFOLDED_PROTEIN_RESPONSE
-> Genes up-regulated during unfolded protein response, a cellular stress response related to the endoplasmic reticulum.
 AC092881.1
 ALDH18A1
 ARFGAP1
