@@ -63,4 +63,33 @@ with open("gene_min_list.json", 'r') as file:
 		ax2.plot(gene_name,gene_number)
 		plt.savefig('least_expressed_genes.png', dpi=1000, label="Expression")
 		plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.5)
-		plt.show()	
+		plt.show()
+
+with open("patient_data_withgenesAnd_stages.json", 'r') as file:
+	data = json.load(file)
+	lbel=""
+	q=[]
+	stages=[]
+	for i in data:
+		z={}
+		for j in data[i]:
+			for k in j:
+				if(isinstance(j,dict)):
+						z[k]=j[k]
+				else:
+					lbel=j
+					if j not in stages:
+						stages.append(j)
+		x=[]
+		y=[]			
+		sorted_x = sorted(z.items(), key=lambda kv: kv[1])[:20:-1]
+		for i in sorted_x:
+			x.append(i[0])
+			y.append(i[1])
+			if i[0] not in q:
+				q.append(i[0])
+
+		plt.plot(x,y, label=lbel)
+	plt.show()
+	print(stages)
+	print(len(q))							
