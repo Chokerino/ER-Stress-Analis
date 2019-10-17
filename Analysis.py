@@ -70,6 +70,7 @@ with open("patient_data_withgenesAnd_stages.json", 'r') as file:
 	lbel=""
 	q=[]
 	stages=[]
+	max_occu={}
 	for i in data:
 		z={}
 		for j in data[i]:
@@ -82,14 +83,22 @@ with open("patient_data_withgenesAnd_stages.json", 'r') as file:
 						stages.append(j)
 		x=[]
 		y=[]			
-		sorted_x = sorted(z.items(), key=lambda kv: kv[1])[:20:-1]
+		sorted_x=dict(sorted(z.items(), key=operator.itemgetter(1), reverse=True)[:5])
 		for i in sorted_x:
-			x.append(i[0])
-			y.append(i[1])
-			if i[0] not in q:
-				q.append(i[0])
+			if i not in max_occu:
+				max_occu[i]=1
+			else:
+				max_occu[i]+=1	
+		for i in sorted_x:
+			x.append(i)
+			y.append(sorted_x[i])
+			if i not in q:
+				q.append(i)
 
 		plt.plot(x,y, label=lbel)
 	plt.show()
 	print(stages)
-	print(len(q))							
+	max_occu=dict(sorted(max_occu.items(), key=operator.itemgetter(1), reverse=True))
+	with open('er_gene_max_occurence.json', 'w') as fout:
+		json.dump(max_occu , fout)
+	#print(max_occu)						
