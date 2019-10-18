@@ -2,6 +2,9 @@ import heapq
 import json
 import operator
 import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+
 plt.rcParams.update({'font.size': 8}) 
 with open("gene_max_list.json", 'r') as file:
 	data = json.load(file)
@@ -65,6 +68,7 @@ with open("gene_min_list.json", 'r') as file:
 		plt.subplots_adjust(left=None, bottom=None, right=None, top=None, wspace=None, hspace=0.5)
 		plt.show()
 
+rcParams['figure.figsize'] = 14.7,14.27
 with open("patient_data_withgenesAnd_stages.json", 'r') as file:
 	data = json.load(file)
 	lbel=""
@@ -76,13 +80,13 @@ with open("patient_data_withgenesAnd_stages.json", 'r') as file:
 		for j in data[i]:
 			for k in j:
 				if(isinstance(j,dict)):
+
 						z[k]=j[k]
 				else:
 					lbel=j
 					if j not in stages:
 						stages.append(j)
-		x=[]
-		y=[]			
+			
 		sorted_x=dict(sorted(z.items(), key=operator.itemgetter(1), reverse=True)[:5])
 		for i in sorted_x:
 			if i not in max_occu:
@@ -90,15 +94,14 @@ with open("patient_data_withgenesAnd_stages.json", 'r') as file:
 			else:
 				max_occu[i]+=1	
 		for i in sorted_x:
-			x.append(i)
-			y.append(sorted_x[i])
 			if i not in q:
 				q.append(i)
-
-		plt.plot(x,y, label=lbel)
+	df = pd.read_csv('gene_expression.csv')
+	abc=sns.catplot(data=df)
+	plt.xticks(rotation=90)
 	plt.show()
 	print(stages)
 	max_occu=dict(sorted(max_occu.items(), key=operator.itemgetter(1), reverse=True))
 	with open('er_gene_max_occurence.json', 'w') as fout:
-		json.dump(max_occu , fout)
+		json.dump(max_occu , fout)	
 	#print(max_occu)						
