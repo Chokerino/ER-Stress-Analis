@@ -7,45 +7,46 @@ import pandas as pd
 import matplotlib.patches as mpatches
 
 current_palette = sns.color_palette()			
-df = pd.read_csv('Data_Output/Liver/gene_expression_liver.csv')
+#df = pd.read_csv('Data_Output/Liver/gene_expression_liver.csv')
+df = pd.read_csv('Data_Output/Parkinson/parkinsons.csv')
 
 plt.figure(figsize=(14,13))		
 sns.boxplot(data=df,palette=sns.cubehelix_palette(8, start=.5, rot=-.75))
 plt.xticks(rotation=90)
-plt.savefig('gene_expression.png')
-plt.show()
+plt.savefig('Data_Output/Parkinson/gene_expression_parkinson.png')
+plt.close()
 plt.clf()
 
-for region, df_region in df.groupby('stage'):
+for region, df_region in df.groupby('Status'):
     plt.figure(figsize=(14,13))
-    sns.boxplot(data=df_region,palette=sns.color_palette("BrBG", 7))
+    sns.kdeplot(data=df_region,palette=sns.color_palette("BrBG", 7))
     plt.xticks(rotation=90)
-    stage_name=region.replace(" ","_")
+    #stage_name=region.replace(" ","_")
     plt.title(region)
-    filename='Data_Output/Liver/gene_plots/expressed_genes_%s.png' %(stage_name)
+    #filename='Data_Output/Parkinson/gene_plots/expressed_genes_%d.png' %(region)
     plt.grid(axis="x")
-    plt.savefig(filename)
-    plt.close()
+    #plt.savefig(filename)
+    plt.show()    
 
-for stage, df_stage in df.groupby('stage'):
-   for stage2, df_stage2 in df.groupby('stage'):
+for stage, df_stage in df.groupby('Status'):
+   for stage2, df_stage2 in df.groupby('Status'):
     plt.figure(figsize=(14,13))
     if stage!=stage2:
-        stage_name=stage.replace(" ","_")
-        stage2_name=stage2.replace(" ","_")
-        Green_patch = mpatches.Patch(color='green', label=stage2_name)
-        Red_patch = mpatches.Patch(color='red', label=stage_name)
+        #stage_name=stage.replace(" ","_")
+        #stage2_name=stage2.replace(" ","_")
+        #Green_patch = mpatches.Patch(color='green', label=stage2_name)
+        #Red_patch = mpatches.Patch(color='red', label=stage_name)
         #sns.boxplot(data=df_stage)
         sns.stripplot(data=df_stage,color="red",linewidth=0.7,marker="o",size=9)
         sns.stripplot(data=df_stage2,color="green",linewidth=0.5,marker="x",alpha=0.5,size=7)
         plt.xticks(rotation=90,fontsize=7)
-        plt.title(stage_name+" and "+stage2_name)
-        filename='Data_Output/Liver/gene_plots/compare/expressed_genes_%s.png' %(stage_name+"+"+stage2_name)
-        plt.legend(handles=[Red_patch,Green_patch])
+        #plt.title(stage_name+" and "+stage2_name)
+        filename='Data_Output/Parkinson/gene_plots/expressed_genes_%d_%d.png' %(stage,stage2)
+        #plt.legend(handles=[Red_patch,Green_patch])
         plt.grid(axis="x")
         plt.savefig(filename)
         plt.close()
-        
+'''        
 for stage, df_stage in df.groupby('stage'):
     for stage2, df_stage2 in df.groupby('stage'):
         if stage!=stage2:
@@ -66,4 +67,4 @@ for stage, df_stage in df.groupby('stage'):
             plt.grid()
             plt.savefig(filename)        
             plt.close()
-            
+            '''
