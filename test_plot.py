@@ -7,18 +7,17 @@ import pandas as pd
 import matplotlib.patches as mpatches
 
 current_palette = sns.color_palette()			
-#df = pd.read_csv('Data_Output/Liver/gene_expression_liver.csv')
+#df = pd.read_csv('Data_Output/Lung/gene_expression_lung.csv')
 df = pd.read_csv('Data_Output/Parkinson/parkinsons.csv')
 
-plt.figure(figsize=(14,13))		
-sns.boxplot(data=df,palette=sns.cubehelix_palette(8, start=.5, rot=-.75))
+'''sns.boxplot(data=df,palette=sns.cubehelix_palette(8, start=.5, rot=-.75))
 plt.xticks(rotation=90)
 plt.savefig('Data_Output/Parkinson/gene_expression_parkinson.png')
 plt.close()
 plt.clf()
 
 for region, df_region in df.groupby('Status'):
-    plt.figure(figsize=(14,13))
+    `plt.figure(figsize=(14,13))`
     sns.kdeplot(data=df_region,palette=sns.color_palette("BrBG", 7))
     plt.xticks(rotation=90)
     #stage_name=region.replace(" ","_")
@@ -46,7 +45,7 @@ for stage, df_stage in df.groupby('Status'):
         plt.grid(axis="x")
         plt.savefig(filename)
         plt.close()
-'''        
+
 for stage, df_stage in df.groupby('stage'):
     for stage2, df_stage2 in df.groupby('stage'):
         if stage!=stage2:
@@ -67,4 +66,20 @@ for stage, df_stage in df.groupby('stage'):
             plt.grid()
             plt.savefig(filename)        
             plt.close()
-            '''
+            
+for i in range(1,df.shape[1]):
+    new_df=pd.DataFrame(df.iloc[:,i])
+    new_df["stage"]=df.iloc[:,108]
+    sns.catplot(x="stage",y=new_df.columns[0], kind="box",data=new_df,palette=sns.color_palette("RdBu_r", 7))
+    filename='Data_Output/Lung/gene_plots/gene/stagewise_genes_%s.png' %(new_df.columns.values[0])
+    plt.xticks(rotation=90)
+    plt.savefig(filename)   
+    plt.close()
+'''
+for i in range(1,df.shape[1]):
+    new_df=pd.DataFrame(df.iloc[:,i])
+    new_df["stage"]=df.iloc[:,103]
+    sns.catplot(x="stage",y=new_df.columns[0], kind="box",data=new_df)
+    filename='Data_Output/Parkinson/gene_plots/stage_wise/stagewise_genes_%s.png' %(new_df.columns.values[0])
+    plt.savefig(filename)
+    plt.close()
